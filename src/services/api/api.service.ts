@@ -1,10 +1,8 @@
-import { Injectable } from '@angular/core';
-import { jwtDecode } from "jwt-decode";
-import { fetch } from "@tauri-apps/plugin-http";
-import { HallModel } from "../../models/hall.model";
-import { GetBookingsGql } from "../../graphql/get-bookings.gql";
-import { HallFactory } from "../../factories/hall.factory";
-import { Incident } from "../../models/incident.model";
+import {Injectable} from '@angular/core';
+import {jwtDecode} from "jwt-decode";
+import {GetBookingsGql} from "../../graphql/get-bookings.gql";
+import {BookingModel} from "../../models/booking.model";
+import {BookingFactory} from "../../factories/booking.factory";
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +11,7 @@ export class ApiService {
 
   private apiUrl = 'http://172.18.0.6/';
 
-  constructor(private readonly getHallsGQL: GetBookingsGql, private readonly hallFactory: HallFactory) {}
+  constructor(private readonly getHallsGQL: GetBookingsGql, private readonly bookingFactory: BookingFactory) {}
 
   public async login(email: string, password: string): Promise<any> {
     const response = await fetch(this.apiUrl + "login", {
@@ -48,36 +46,18 @@ export class ApiService {
     return response.json();
   }
 
-  public async getHalls(cinemaId: number) {
+  public async getBookings(userId: number) {
 
-    let halls: HallModel[] = [];
+    let bookings: BookingModel[] = [];
 
     let result = await this.getHallsGQL.watch(
-        { cinemaId: cinemaId }
+        { userId: userId }
     ).result();
 
-    result.data.halls.forEach((hall: HallModel) => {
-      halls.push(this.hallFactory.create(hall.id, hall.number, hall.currentShowtime, hall.incidents));
+    result.data.bookings.forEach((booking: BookingModel) => {
+      bookings.push(this.bookingFactory.create(booking.id, booking.qrCode, booking.showtime, booking.bookingSeats));
     });
 
-    return halls;
+    return bookings;
   }
-
-  public async postIncident(incident: Incident, token: string) {
-    const response: Response = await fetch(this.apiUrl + "incident", {
-      method: "POST",
-      headers: {
-        "Authorization": `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({"type": incident.type, "description": incident.description, "hall": incident.hall}),
-    });
-
-    if (!response.ok) {
-      throw new Error(response.status.toString());
-    }
-
-    return response.json();
-  }
-
 }
