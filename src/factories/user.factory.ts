@@ -1,4 +1,4 @@
-import { User } from "../models/user.model";
+import { UserModel } from "../models/user.model";
 import { Injectable } from "@angular/core";
 
 @Injectable({
@@ -6,8 +6,8 @@ import { Injectable } from "@angular/core";
 })
 export class UserFactory {
 
-    public create(id: number, firstName: string, lastName: string): User {
-        return new User(id, firstName, lastName);
+    public create(id: number, firstName: string, lastName: string): UserModel {
+        return new UserModel(id, firstName, lastName);
     }
 
 }
