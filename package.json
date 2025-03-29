@@ -34,6 +34,7 @@
     "apollo-angular": "^10.0.3",
     "dexie": "^4.0.11",
     "ionicons": "^7.0.0",
+    "jwt-decode": "^4.0.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"
