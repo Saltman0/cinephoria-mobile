@@ -13,7 +13,7 @@ import {UserModel} from "../../models/user.model";
   standalone: true,
   imports: [NgOptimizedImage, ReactiveFormsModule],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrl: './login.component.scss'
 })
 export class LoginComponent {
   loginForm = new FormGroup({
