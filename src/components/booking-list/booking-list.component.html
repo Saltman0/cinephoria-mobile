@@ -1,3 +1,11 @@
-<p>
-  showtime works!
-</p>
+<app-header></app-header>
+<main class="flex flex-wrap" style="background-color: #24c8db">
+  @for (booking of bookingList; track booking.id;) {
+    <app-booking [movieTitle]="booking.movieTitle" [showtimeDate]="booking.showtimeDate"
+                 [showtimeStartHour]="booking.showtimeStartHour" [showtimeEndHour]="booking.showtimeEndHour"
+                 [hallNumber]="booking.number" [seats]="booking.seats">
+    </app-booking>
+  } @empty {
+    Aucune salle dans ce cinéma.
+  }
+</main>
