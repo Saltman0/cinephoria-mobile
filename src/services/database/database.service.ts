@@ -143,12 +143,12 @@ export class DatabaseService extends Dexie {
     }
   }
 
-  public getHalls(): PromiseExtended<HallModel[]> {
-    return this.halls.toArray();
+  public getBookings(): PromiseExtended<BookingModel[]> {
+    return this.bookings.toArray();
   }
 
-  public getHall(id: number): PromiseExtended<HallModel | undefined> {
-    return this.halls.get(id);
+  public getBooking(id: number): PromiseExtended<BookingModel | undefined> {
+    return this.bookings.get(id);
   }
 
   public addShowtime(showtime: ShowtimeModel): void {
