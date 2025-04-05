@@ -27,7 +27,8 @@ export class BookingRenderer {
       showtimeStartHour: showtime.startTime.getHours().toString(),
       showtimeEndHour: showtime.endTime.getHours().toString(),
       hallNumber: showtime.hall.number,
-      seats: seats
+      seats: seats,
+      qrCode: booking.qrCode
     }
   }
 
