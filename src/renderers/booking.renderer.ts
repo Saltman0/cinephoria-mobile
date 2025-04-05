@@ -8,14 +8,12 @@ import { BookingModel } from "../models/booking.model";
 export class BookingRenderer {
 
   public render(booking: BookingModel) {
-    let seats: string[] = [];
+    let seats: string = "";
     booking.bookingSeats.forEach(function (bookingSeat, index, array) {
-      let seat: string;
-      seat = bookingSeat.seat.row + bookingSeat.seat.number;
+      seats = bookingSeat.seat.row + bookingSeat.seat.number;
       if (index !== booking.bookingSeats.length - 1) {
-        seat += "/";
+        seats += "/";
       }
-      seats.push(seat);
     });
 
     const showtime: ShowtimeModel | null = booking.showtime;
