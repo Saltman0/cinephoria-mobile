@@ -21,6 +21,7 @@ export class BookingRenderer {
     return {
       id: booking.id,
       movieTitle: showtime.movie.title,
+      movieImage: showtime.movie.imageUrl,
       showtimeDate: showtime.startTime.getDate().toString(),
       showtimeStartHour: showtime.startTime.getHours().toString(),
       showtimeEndHour: showtime.endTime.getHours().toString(),
