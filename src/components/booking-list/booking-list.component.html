@@ -1,11 +1,43 @@
 <app-header></app-header>
-<main class="flex flex-wrap" style="background-color: #24c8db">
-  @for (booking of bookingList; track booking.id;) {
-    <app-booking [movieTitle]="booking.movieTitle" [showtimeDate]="booking.showtimeDate"
+<main class="flex flex-col items-center overflow-y-auto">
+  <!--@for (booking of bookingList; track booking.id;) {
+    <app-booking [movieTitle]="booking.movieTitle" [movieImage]="booking.movieImage" [showtimeDate]="booking.showtimeDate"
                  [showtimeStartHour]="booking.showtimeStartHour" [showtimeEndHour]="booking.showtimeEndHour"
                  [hallNumber]="booking.number" [seats]="booking.seats">
     </app-booking>
   } @empty {
     Aucune salle dans ce cinéma.
-  }
+  }-->
+  <app-booking [movieTitle]="'Avengers : Infinity War'" [movieImage]="'Avengers : Infinity War'"
+               [showtimeDate]="'12/04/2025'" [showtimeStartHour]="'21h00'" [showtimeEndHour]="'23h30'" [hallNumber]="1"
+               [seats]="'A22/A23/A24'">
+  </app-booking>
+  <app-booking [movieTitle]="'Avengers : Infinity War'" [movieImage]="'Avengers : Infinity War'"
+               [showtimeDate]="'12/04/2025'" [showtimeStartHour]="'21h00'" [showtimeEndHour]="'23h30'" [hallNumber]="1"
+               [seats]="'A22/A23/A24'">
+  </app-booking>
+  <app-booking [movieTitle]="'Avengers : Infinity War'" [movieImage]="'Avengers : Infinity War'"
+               [showtimeDate]="'12/04/2025'" [showtimeStartHour]="'21h00'" [showtimeEndHour]="'23h30'" [hallNumber]="1"
+               [seats]="'A22/A23/A24'">
+  </app-booking>
+  <app-booking [movieTitle]="'Avengers : Infinity War'" [movieImage]="'Avengers : Infinity War'"
+               [showtimeDate]="'12/04/2025'" [showtimeStartHour]="'21h00'" [showtimeEndHour]="'23h30'" [hallNumber]="1"
+               [seats]="'A22/A23/A24'">
+  </app-booking>
+  <app-booking [movieTitle]="'Avengers : Infinity War'" [movieImage]="'Avengers : Infinity War'"
+               [showtimeDate]="'12/04/2025'" [showtimeStartHour]="'21h00'" [showtimeEndHour]="'23h30'" [hallNumber]="1"
+               [seats]="'A22/A23/A24'">
+  </app-booking>
+  <app-booking [movieTitle]="'Avengers : Infinity War'" [movieImage]="'Avengers : Infinity War'"
+               [showtimeDate]="'12/04/2025'" [showtimeStartHour]="'21h00'" [showtimeEndHour]="'23h30'" [hallNumber]="1"
+               [seats]="'A22/A23/A24'">
+  </app-booking>
+  <app-booking [movieTitle]="'Avengers : Infinity War'" [movieImage]="'Avengers : Infinity War'"
+               [showtimeDate]="'12/04/2025'" [showtimeStartHour]="'21h00'" [showtimeEndHour]="'23h30'" [hallNumber]="1"
+               [seats]="'A22/A23/A24'">
+  </app-booking>
+  <app-booking [movieTitle]="'Avengers : Infinity War'" [movieImage]="'Avengers : Infinity War'"
+               [showtimeDate]="'12/04/2025'" [showtimeStartHour]="'21h00'" [showtimeEndHour]="'23h30'" [hallNumber]="1"
+               [seats]="'A22/A23/A24'">
+  </app-booking>
 </main>
