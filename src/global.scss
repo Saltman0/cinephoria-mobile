@@ -80,12 +80,14 @@ body {
   font-size: 64px;
 }
 
-.cinephoria-hall {
+.cinephoria-booking {
   background-color: rgba(0, 0, 0, 0.8);
   background-blend-mode: darken;
   background-repeat: no-repeat;
   background-size: cover;
-  border: 2px solid #F1C40F;
+  border-width: 2px 0 2px 0;
+  border-style: solid;
+  border-color: #F1C40F;
 }
 
 .cinephoria-hall-number {
