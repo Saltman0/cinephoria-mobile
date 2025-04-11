@@ -1,0 +1,47 @@
+<app-header></app-header>
+<main class="cinephoria-booking-detail flex flex-col justify-around items-center" style="background-image: url('assets/images/movies/Avengers - Infinity War.png')">
+
+  <span class="cinephoria-movie-title">{{ movieTitle }}</span>
+
+  <section class="flex flex-col justify-around items-center w-100" style="height: 35%;">
+
+    <div class="flex items-center" style="width: 50dvw;">
+      <img src="../../assets/images/Calendar.png" alt="Calendrier" class="icon" style="width: 20%;" />
+      <span class="cinephoria-big-text" style="margin-left: 0.5rem;">{{ showtimeDate }}</span>
+    </div>
+
+    <div class="flex items-center" style="width: 50dvw;">
+      <img src="../../assets/images/Clock.png" alt="Horaires" class="icon" style="width: 20%;" />
+      <span class="cinephoria-big-text" style="margin-left: 0.5rem;">{{ showtimeStartHour }} - {{ showtimeEndHour }}</span>
+    </div>
+
+    <div class="flex items-center" style="width: 50dvw;">
+      <img src="../../assets/images/Hall.png" alt="Salle" class="icon" style="width: 20%;" />
+      <span class="cinephoria-big-text" style="margin-left: 0.5rem;">Salle {{ hallNumber }}</span>
+    </div>
+
+    <div class="flex items-center" style="width: 50dvw;">
+      <img src="../../assets/images/Chair.png" alt="Sièges" class="icon" style="width: 20%;" />
+      <span class="cinephoria-big-text" style="margin-left: 0.5rem;">{{ seats }}</span>
+    </div>
+
+  </section>
+
+    <qrcode
+      [qrdata]="'https://github.com/Cordobo/angularx-qrcode'"
+      [allowEmptyString]="true"
+      [cssClass]="'center'"
+      [elementType]="'svg'"
+      [errorCorrectionLevel]="'H'"
+      [scale]="1"
+      [margin]="1"
+      [title]="'QR Code'"
+      [width]="200"
+    ></qrcode>
+
+  <button type="button" class="cinephoria-button text-center" style="width: 45dvw; height: 5dvh;">
+    <img ngSrc="../../assets/images/Left_arrow.png" alt="Retour" class="icon" width="20" height="20" />
+    <span style="font-size: 4dvw;">Retour</span>
+  </button>
+
+</main>
