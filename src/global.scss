@@ -88,12 +88,19 @@ body {
   border-width: 2px 0 2px 0;
   border-style: solid;
   border-color: #F1C40F;
+  height: 30dvh;
 }
 
 .cinephoria-hall-number {
   color: #F1C40F;
   font-family: Oswald, sans-serif;
   font-size: 40px;
+}
+
+.cinephoria-informations {
+  display: flex;
+  align-items: center;
+  width: 40dvw;
 }
 
 .cinephoria-incident-header {
@@ -117,13 +124,13 @@ body {
 .cinephoria-big-text {
   color: #FFFFFF;
   font-family: Raleway, sans-serif;
-  font-size: 24px;
+  font-size: 5dvw;
 }
 
 .cinephoria-movie-title {
   color: #F1C40F;
   font-family: Oswald, sans-serif;
-  font-size: 30px;
+  font-size: 8dvw;
 }
 
 .cinephoria-showtime {
