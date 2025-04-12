@@ -1,35 +1,35 @@
 <section class="cinephoria-booking flex flex-col justify-around w-screen" style="background-image: url('assets/images/movies/Avengers - Infinity War.png')">
 
   <div class="cinephoria-movie-title text-center">
-    <span>Avengers : Infinity War</span>
+    <span>{{ movieTitle }}</span>
   </div>
 
   <div class="flex flex-col justify-center items-center h-20">
     <div class="flex justify-around items-center">
       <div class="cinephoria-informations">
         <img ngSrc="../../assets/images/Calendar.png" alt="Calendrier" class="icon" width="20" height="20" />
-        <span class="cinephoria-big-text" style="margin-left: 0.3rem;">12/04/2025</span>
+        <span class="cinephoria-big-text" style="margin-left: 0.3rem;">{{ showtimeDate }}</span>
       </div>
       <div class="cinephoria-informations">
         <img ngSrc="../../assets/images/Clock.png" alt="Horaires" class="icon" width="20" height="20" />
-        <span class="cinephoria-big-text" style="margin-left: 0.3rem;">21h00 - 23h30</span>
+        <span class="cinephoria-big-text" style="margin-left: 0.3rem;">{{ showtimeStartHour }} - {{ showtimeEndHour }}</span>
       </div>
     </div>
 
     <div class="flex justify-around items-center">
       <div class="cinephoria-informations">
         <img ngSrc="../../assets/images/Hall.png" alt="Salle" class="icon" width="20" height="20" />
-        <span class="cinephoria-big-text" style="margin-left: 0.3rem;">Salle 1</span>
+        <span class="cinephoria-big-text" style="margin-left: 0.3rem;">Salle {{ hallNumber }}</span>
       </div>
       <div class="cinephoria-informations">
         <img ngSrc="../../assets/images/Chair.png" alt="Sièges" class="icon" width="20" height="20" />
-        <span class="cinephoria-big-text" style="margin-left: 0.3rem;">A22/A23/A24</span>
+        <span class="cinephoria-big-text" style="margin-left: 0.3rem;">{{ seats }}</span>
       </div>
     </div>
   </div>
 
   <div class="flex justify-center">
-    <button type="button" class="cinephoria-button text-center" style="width: 55dvw; height: 5dvh;">
+    <button type="button" (click)="displayBookingDetails()" class="cinephoria-button text-center" style="width: 55dvw; height: 5dvh;">
       <img ngSrc="../../assets/images/Qr_code.png" alt="QR Code" class="icon" width="20" height="20" />
       <span style="margin-left: 1.5rem; font-size: 4dvw;">Afficher le QR Code</span>
     </button>

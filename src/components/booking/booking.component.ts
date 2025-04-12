@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {NgOptimizedImage} from "@angular/common";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-booking',
@@ -18,10 +19,13 @@ export class BookingComponent implements OnInit {
   @Input() showtimeEndHour: string = "xxhxx";
   @Input() hallNumber: number = 777;
   @Input() seats: string = "A0/B0/C0";
-  @Input() qrCode: string = "qrCode";
 
-  constructor() { }
+  constructor(private readonly router: Router) {}
 
-  ngOnInit() {}
+  ngOnInit(): void {}
+
+  displayBookingDetails() {
+    this.router.navigate(['/booking-detail']);
+  }
 
 }
