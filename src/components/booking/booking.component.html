@@ -1,4 +1,4 @@
-<section class="cinephoria-booking flex flex-col justify-around w-screen" style="background-image: url('assets/images/movies/Avengers - Infinity War.png')">
+<section class="cinephoria-booking flex flex-col justify-around w-screen" [ngStyle]="{'background-image': 'url(assets/images/movies/' + movieImage + ')'}">
 
   <div class="cinephoria-movie-title text-center">
     <span>{{ movieTitle }}</span>
@@ -29,7 +29,7 @@
   </div>
 
   <div class="flex justify-center">
-    <button type="button" (click)="displayBookingDetails()" class="cinephoria-button text-center" style="width: 55dvw; height: 5dvh;">
+    <button type="button" (click)="displayBookingDetails(id)" class="cinephoria-button text-center" style="width: 55dvw; height: 5dvh;">
       <img ngSrc="../../assets/images/Qr_code.png" alt="QR Code" class="icon" width="20" height="20" />
       <span style="margin-left: 1.5rem; font-size: 4dvw;">Afficher le QR Code</span>
     </button>

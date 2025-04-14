@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {NgOptimizedImage} from "@angular/common";
+import {NgOptimizedImage, NgStyle} from "@angular/common";
 import {Router} from "@angular/router";
 
 @Component({
@@ -8,12 +8,14 @@ import {Router} from "@angular/router";
   templateUrl: './booking.component.html',
   styleUrls: ['./booking.component.scss'],
   imports: [
-    NgOptimizedImage
+    NgOptimizedImage,
+    NgStyle
   ]
 })
 export class BookingComponent implements OnInit {
+  @Input() id: number = 0;
   @Input() movieTitle: string = "Nom du film actuel";
-  @Input() movieImage: string = "Lien vers l'image";
+  @Input() movieImage: string = "https://www.gettyimages.ie/gi-resources/images/Homepage/Hero/UK/CMS_Creative_164657191_Kingfisher.jpg";
   @Input() showtimeDate: string = "Date du film actuel";
   @Input() showtimeStartHour: string = "xxhxx";
   @Input() showtimeEndHour: string = "xxhxx";
@@ -24,8 +26,8 @@ export class BookingComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  displayBookingDetails() {
-    this.router.navigate(['/booking-detail']);
+  displayBookingDetails(bookingId: number) {
+    this.router.navigate([`/booking-detail/${bookingId}`]);
   }
 
 }
