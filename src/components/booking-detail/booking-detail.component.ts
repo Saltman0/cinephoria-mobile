@@ -1,8 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {HeaderComponent} from "../header/header.component";
 import {QRCodeComponent} from "angularx-qrcode";
-import {NgOptimizedImage} from "@angular/common";
-import {BookingRenderer} from "../../renderers/booking.renderer";
+import {NgOptimizedImage, NgStyle} from "@angular/common";
 import {Router} from "@angular/router";
 
 @Component({
@@ -10,12 +9,13 @@ import {Router} from "@angular/router";
   standalone: true,
   templateUrl: './booking-detail.component.html',
   styleUrls: ['./booking-detail.component.scss'],
-  imports: [HeaderComponent, QRCodeComponent, NgOptimizedImage]
+  imports: [HeaderComponent, QRCodeComponent, NgOptimizedImage, NgStyle]
 })
 export class BookingDetailComponent implements OnInit {
 
+  @Input() id: number = 0;
   @Input() movieTitle: string = "Avengers : Infinity War";
-  @Input() movieImage: string = "Avengers - Infinity War.png";
+  @Input() movieImage: string = "Avengers_-_Infinity_War.png";
   @Input() showtimeDate: string = "12/04/2025";
   @Input() showtimeStartHour: string = "21h00";
   @Input() showtimeEndHour: string = "23h30";

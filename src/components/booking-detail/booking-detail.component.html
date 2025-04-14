@@ -1,5 +1,5 @@
 <app-header></app-header>
-<main class="cinephoria-booking-detail flex flex-col justify-around items-center" style="background-image: url('assets/images/movies/Avengers - Infinity War.png')">
+<main class="cinephoria-booking-detail flex flex-col justify-around items-center" [ngStyle]="{'background-image': 'url(assets/images/movies/' + movieImage + ')'}">
 
   <span class="cinephoria-movie-title">{{ movieTitle }}</span>
 
