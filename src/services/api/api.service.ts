@@ -14,10 +14,10 @@ export class ApiService {
   constructor(private readonly getHallsGQL: GetBookingsGql, private readonly bookingFactory: BookingFactory) {}
 
   public async login(email: string, password: string): Promise<any> {
-    const response = await fetch(this.apiUrl + "login", {
+    const response: Response = await fetch(this.apiUrl + "login", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/json"
       },
       body: JSON.stringify({email: email, password: password})
     });
@@ -30,17 +30,23 @@ export class ApiService {
   }
 
   public async getUser(token: string) {
-    const userId: number = jwtDecode<{id: number}>(token).id;
-    const response: Response = await fetch(this.apiUrl + `user/${userId}`, {
+    let userId: number;
+    try {
+      userId = jwtDecode<{ id: number }>(token).id;
+    } catch (error) {
+      throw new Error("Invalid token.");
+    }
+
+    const response: Response = await fetch(`${this.apiUrl}user/${userId}`, {
       method: "GET",
       headers: {
-        "Authorization": `Bearer ${token}`,
-        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
       }
     });
 
     if (!response.ok) {
-      throw new Error(response.status.toString());
+      const errorMessage = await response.text();
+      throw new Error(`Error ${response.status}: ${errorMessage}`);
     }
 
     return response.json();
