@@ -4,9 +4,7 @@ import {NgOptimizedImage} from "@angular/common";
 import {ApiService} from "../../services/api/api.service";
 import {DatabaseService} from "../../services/database/database.service";
 import {Router} from "@angular/router";
-import {UserFactory} from "../../factories/user.factory";
 import {LocalStorageService} from "../../services/local-storage/local-storage.service";
-import {UserModel} from "../../models/user.model";
 
 @Component({
   selector: 'app-login',
@@ -24,8 +22,7 @@ export class LoginComponent {
   constructor(private router: Router,
               private readonly apiService: ApiService,
               private readonly databaseService: DatabaseService,
-              private readonly localStorageService: LocalStorageService,
-              private readonly userFactory: UserFactory) {}
+              private readonly localStorageService: LocalStorageService) {}
 
   async submit() {
 
@@ -39,15 +36,7 @@ export class LoginComponent {
 
       this.databaseService.openDatabase();
 
-      const responseUser = await this.apiService.getUser(this.localStorageService.getJwtToken());
-
-      const user: UserModel = this.userFactory.create(
-        responseUser.id, responseUser.firstName, responseUser.lastName
-      );
-
-      this.databaseService.addUser(user);
-
-      this.databaseService.populateDatabase(await this.apiService.getBookings(user.id));
+      await this.databaseService.populateDatabase();
     }
 
     await this.router.navigate(['booking-list']);

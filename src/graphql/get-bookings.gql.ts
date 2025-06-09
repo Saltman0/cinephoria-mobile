@@ -1,6 +1,6 @@
-import { gql, Query } from 'apollo-angular';
-import { Injectable } from '@angular/core';
-import { BookingModel } from "../models/booking.model";
+import {gql, Query} from 'apollo-angular';
+import {Injectable} from '@angular/core';
+import {BookingModel} from "../models/booking.model";
 
 export interface Response {
     bookings: BookingModel[];
@@ -30,11 +30,17 @@ export class GetBookingsGql extends Query<Response> {
             }
           }
           bookingSeats {
+            id
             seat {
               id
               row
               number
             }
+          }
+          user {
+            id
+            firstName
+            lastName
           }
         }
       }

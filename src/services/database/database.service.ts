@@ -1,46 +1,98 @@
 import {Injectable} from '@angular/core';
 import Dexie, {PromiseExtended, Table} from 'dexie';
-import {UserModel} from "../../models/user.model";
 import {HallModel} from "../../models/hall.model";
-import {ShowtimeModel} from "../../models/showtime.model";
 import {MovieModel} from "../../models/movie.model";
-import {ShowtimeFactory} from "../../factories/showtime.factory";
 import {MovieFactory} from "../../factories/movie.factory";
+import {HallFactory} from "../../factories/hall.factory";
 import {BookingModel} from "../../models/booking.model";
-import {SeatModel} from "../../models/seat.model";
+import {ShowtimeModel} from "../../models/showtime.model";
+import {BookingFactory} from "../../factories/booking.factory";
+import {ShowtimeFactory} from "../../factories/showtime.factory";
 import {BookingSeatModel} from "../../models/bookingSeat.model";
 import {BookingSeatFactory} from "../../factories/bookingSeat.factory";
 import {SeatFactory} from "../../factories/seat.factory";
-import {HallFactory} from "../../factories/hall.factory";
+import {UserFactory} from "../../factories/user.factory";
+import {ApiService} from "../api/api.service";
+import {LocalStorageService} from "../local-storage/local-storage.service";
+import {UserModel} from "../../models/user.model";
+
+export interface Booking {
+  id: number;
+  qrCode: string;
+  userId: number;
+  showtimeId: number;
+}
+
+export interface BookingSeat {
+  id: number;
+  bookingId: number;
+  seatId: number;
+}
+
+export interface Hall {
+  id: number;
+  number: number;
+  showtimeId: number|null;
+}
+
+export interface Movie {
+  id: number;
+  title: string;
+  imageURL: string;
+  showtimeId: number;
+}
+
+export interface Seat {
+  id: number;
+  row: string;
+  number: number;
+}
+
+export interface Showtime {
+  id: number;
+  startTime: Date;
+  endTime: Date;
+  movieId: number;
+  hallId: number;
+  bookingId: number;
+}
+
+export interface User {
+  id: number;
+  firstName: string;
+  lastName: string;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class DatabaseService extends Dexie {
-  bookings!: Table<BookingModel, number>;
-  bookingSeats!: Table<BookingSeatModel, number>;
-  halls!: Table<HallModel, number>;
-  movies!: Table<MovieModel, number>;
-  seats!: Table<SeatModel, number>;
-  showtimes!: Table<ShowtimeModel, number>;
-  users!: Table<UserModel, number>;
+  bookings!: Table<Booking, number>;
+  bookingSeats!: Table<BookingSeat, number>;
+  halls!: Table<Hall, number>;
+  movies!: Table<Movie, number>;
+  seats!: Table<Seat, number>;
+  showtimes!: Table<Showtime, number>;
+  users!: Table<User, number>;
 
-  public constructor(
-    private readonly bookingSeatFactory: BookingSeatFactory,
-    private readonly hallFactory: HallFactory,
-    private readonly movieFactory: MovieFactory,
-    private readonly seatFactory: SeatFactory,
-    private readonly showtimeFactory: ShowtimeFactory
-  ) {
+  public constructor(private readonly apiService: ApiService,
+                     private readonly localStorageService: LocalStorageService,
+                     private readonly bookingFactory: BookingFactory,
+                     private readonly bookingSeatFactory: BookingSeatFactory,
+                     private readonly hallFactory: HallFactory,
+                     private readonly movieFactory: MovieFactory,
+                     private readonly seatFactory: SeatFactory,
+                     private readonly showtimeFactory: ShowtimeFactory,
+                     private readonly userFactory: UserFactory) {
     super('CinephoriaDatabase');
     this.version(1).stores({
-      bookings: '++id, qrCode',
-      bookingSeats: '++id',
-      halls: '++id, number',
-      movies: '++id, title, imageUrl',
-      seats: '++id, number, row',
-      showtimes: '++id, startTime, endTime',
-      users: '++id, firstName, lastName',
+      bookings: '++id, userId',
+      bookingSeats: '++id, bookingId',
+      halls: '++id',
+      movies: '++id',
+      seats: '++id',
+      showtimes: '++id',
+      users: '++id',
     });
   }
 
@@ -56,40 +108,50 @@ export class DatabaseService extends Dexie {
     this.delete();
   }
 
-  public populateDatabase(bookings: BookingModel[]): void {
+  public async populateDatabase(): Promise<void> {
 
-    bookings.forEach((booking: BookingModel) => {
+    const responseUser = await this.apiService.getUser(this.localStorageService.getJwtToken());
 
-      this.addBooking(booking);
+    const user: UserModel = this.userFactory.create(
+      responseUser.id, responseUser.firstName, responseUser.lastName
+    );
+
+    this.addUser(this.userFactory.create(user.id, user.firstName, user.lastName));
+
+    const bookings: BookingModel[] = await this.apiService.getBookings(user.id);
+
+    for (const booking of bookings) {
+
+      this.addBooking(this.bookingFactory.create(booking.id, booking.qrCode, booking.user.id, booking.showtime.id));
 
       const showtime: ShowtimeModel = booking.showtime;
       this.addShowtime(
         this.showtimeFactory.create(
-          showtime.id, showtime.movie, showtime.startTime, showtime.endTime, showtime.hall, booking
+          showtime.id, showtime.startTime, showtime.endTime, showtime.movie.id, showtime.hall.id, booking.id
         )
       );
 
       const movie: MovieModel = showtime.movie;
       if (movie) {
-        this.addMovie(this.movieFactory.create(movie.id, movie.title, movie.imageUrl, showtime));
+        this.addMovie(this.movieFactory.create(movie.id, movie.title, movie.imageURL, showtime.id));
       }
 
       booking.bookingSeats.forEach((bookingSeat: BookingSeatModel) => {
         const seat = bookingSeat.seat;
-        this.addBookingSeat(this.bookingSeatFactory.create(bookingSeat.id, bookingSeat.booking, bookingSeat.seat));
+        this.addBookingSeat(this.bookingSeatFactory.create(bookingSeat.id, booking.id, bookingSeat.seat.id));
 
-        this.addSeat(this.seatFactory.create(seat.id, seat.row, seat.number, seat.bookingSeats));
+        this.addSeat(this.seatFactory.create(seat.id, seat.row, seat.number));
       });
 
       const hall: HallModel = showtime.hall;
 
-      this.addHall(this.hallFactory.create(hall.id, hall.number, showtime));
+      this.addHall(this.hallFactory.create(hall.id, hall.number, showtime.id));
 
-    });
+    }
 
   }
 
-  public addUser(user: UserModel): void {
+  public addUser(user: User): void {
     if (user.id !== null) {
       if (this.users.get(user.id) !== null) {
         this.users.delete(user.id);
@@ -99,11 +161,11 @@ export class DatabaseService extends Dexie {
     }
   }
 
-  public getUser(id: number): PromiseExtended<UserModel | undefined> {
+  public getUser(id: number): PromiseExtended<User|undefined> {
     return this.users.get(id);
   }
 
-  public addBooking(booking: BookingModel): void {
+  public addBooking(booking: Booking): void {
     if (booking.id !== null) {
       if (this.bookings.get(booking.id) !== null) {
         this.bookings.delete(booking.id);
@@ -113,7 +175,11 @@ export class DatabaseService extends Dexie {
     }
   }
 
-  public addBookingSeat(bookingSeat: BookingSeatModel): void {
+  public getBookingSeats(bookingId: number): PromiseExtended<BookingSeat[]> {
+    return this.bookingSeats.where("bookingId").equals(bookingId).toArray();
+  }
+
+  public addBookingSeat(bookingSeat: BookingSeat): void {
     if (bookingSeat.id !== null) {
       if (this.bookingSeats.get(bookingSeat.id) !== null) {
         this.bookingSeats.delete(bookingSeat.id);
@@ -123,7 +189,11 @@ export class DatabaseService extends Dexie {
     }
   }
 
-  public addSeat(seat: SeatModel): void {
+  public getSeat(seatId: number): PromiseExtended<Seat|undefined> {
+    return this.seats.get(seatId);
+  }
+
+  public addSeat(seat: Seat): void {
     if (seat.id !== null) {
       if (this.seats.get(seat.id) !== null) {
         this.seats.delete(seat.id);
@@ -133,7 +203,11 @@ export class DatabaseService extends Dexie {
     }
   }
 
-  public addHall(hall: HallModel): void {
+  public getHall(id: number): PromiseExtended<Hall|undefined> {
+    return this.halls.get(id);
+  }
+
+  public addHall(hall: Hall): void {
     if (hall.id !== null) {
       if (this.halls.get(hall.id) !== null) {
         this.halls.delete(hall.id);
@@ -143,15 +217,19 @@ export class DatabaseService extends Dexie {
     }
   }
 
-  public getBookings(): PromiseExtended<BookingModel[]> {
-    return this.bookings.toArray();
+  public getBookings(userId: number): PromiseExtended<Booking[]> {
+    return this.bookings.where("userId").equals(userId).toArray();
   }
 
-  public getBooking(id: number): PromiseExtended<BookingModel | undefined> {
+  public getBooking(id: number): PromiseExtended<Booking|undefined> {
     return this.bookings.get(id);
   }
 
-  public addShowtime(showtime: ShowtimeModel): void {
+  public getShowtime(id: number): PromiseExtended<Showtime|undefined> {
+    return this.showtimes.get(id);
+  }
+
+  public addShowtime(showtime: Showtime): void {
     if (showtime.id !== null) {
       if (this.showtimes.get(showtime.id) !== null) {
         this.showtimes.delete(showtime.id);
@@ -161,7 +239,11 @@ export class DatabaseService extends Dexie {
     }
   }
 
-  public addMovie(movie: MovieModel): void {
+  public getMovie(id: number): PromiseExtended<Movie|undefined> {
+    return this.movies.get(id);
+  }
+
+  public addMovie(movie: Movie): void {
     if (movie.id !== null) {
       if (this.movies.get(movie.id) !== null) {
         this.movies.delete(movie.id);
@@ -170,6 +252,5 @@ export class DatabaseService extends Dexie {
       this.movies.add(movie, movie.id);
     }
   }
-
 
 }

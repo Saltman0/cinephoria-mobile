@@ -1,9 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {HeaderComponent} from "../header/header.component";
 import {BookingComponent} from "../booking/booking.component";
-import {DatabaseService} from "../../services/database/database.service";
+import {Booking, DatabaseService} from "../../services/database/database.service";
 import {BookingRenderer} from "../../renderers/booking.renderer";
-import {BookingModel} from "../../models/booking.model";
 
 @Component({
   selector: 'app-booking-list',
@@ -19,10 +18,10 @@ export class BookingListComponent implements OnInit {
   constructor(private readonly databaseService: DatabaseService, private readonly bookingRenderer: BookingRenderer) {}
 
   async ngOnInit(): Promise<void> {
-    const bookings: BookingModel[] = await this.databaseService.getBookings();
-    bookings.forEach(booking => {
-      this.bookingList.push(this.bookingRenderer.render(booking));
-    });
+    const bookings: Booking[] = await this.databaseService.getBookings(1);
+    for (const booking of bookings) {
+      this.bookingList.push(await this.bookingRenderer.render(booking));
+    }
   }
 
 }

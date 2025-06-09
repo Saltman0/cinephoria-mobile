@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {HeaderComponent} from "../header/header.component";
 import {QRCodeComponent} from "angularx-qrcode";
 import {NgOptimizedImage, NgStyle} from "@angular/common";
@@ -11,11 +11,11 @@ import {Router} from "@angular/router";
   styleUrls: ['./booking-detail.component.scss'],
   imports: [HeaderComponent, QRCodeComponent, NgOptimizedImage, NgStyle]
 })
-export class BookingDetailComponent implements OnInit {
+export class BookingDetailComponent  {
 
   @Input() id: number = 0;
-  @Input() movieTitle: string = "Avengers : Infinity War";
-  @Input() movieImage: string = "Avengers_-_Infinity_War.png";
+  @Input() movieTitle: string = "Titre du film";
+  @Input() movieImage: string = "Titre_du_film.png";
   @Input() showtimeDate: string = "12/04/2025";
   @Input() showtimeStartHour: string = "21h00";
   @Input() showtimeEndHour: string = "23h30";
@@ -24,8 +24,6 @@ export class BookingDetailComponent implements OnInit {
   @Input() qrCode: string = "https://github.com/Cordobo/angularx-qrcode";
 
   constructor(private readonly router: Router) {}
-
-  ngOnInit(): void {}
 
   returnToBookingList(): void {
     this.router.navigate(['/booking-list']);

@@ -11,7 +11,7 @@ export class ApiService {
 
   private apiUrl = 'http://172.18.0.6/';
 
-  constructor(private readonly getHallsGQL: GetBookingsGql, private readonly bookingFactory: BookingFactory) {}
+  constructor(private readonly getBookingsGql: GetBookingsGql, private readonly bookingFactory: BookingFactory) {}
 
   public async login(email: string, password: string): Promise<any> {
     const response: Response = await fetch(this.apiUrl + "login", {
@@ -55,15 +55,23 @@ export class ApiService {
   public async getBookings(userId: number) {
 
     let bookings: BookingModel[] = [];
-
-    let result = await this.getHallsGQL.watch(
+    let result = await this.getBookingsGql.watch(
         { userId: userId }
     ).result();
 
     result.data.bookings.forEach((booking: BookingModel) => {
-      bookings.push(this.bookingFactory.create(booking.id, booking.qrCode, booking.showtime, booking.bookingSeats));
+      bookings.push(
+        this.bookingFactory.createModel(
+          booking.id,
+          booking.qrCode,
+          booking.showtime,
+          booking.user,
+          booking.bookingSeats
+        )
+      );
     });
 
     return bookings;
   }
+
 }

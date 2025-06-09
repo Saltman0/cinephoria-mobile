@@ -1,16 +1,27 @@
-import { Injectable } from "@angular/core";
-import { MovieModel } from "../models/movie.model";
-import { ShowtimeModel } from "../models/showtime.model";
-import { HallModel } from "../models/hall.model";
-import { BookingModel } from "../models/booking.model";
+import {Injectable} from "@angular/core";
+import {Showtime} from "../services/database/database.service";
 
 @Injectable({
     providedIn: 'root'
 })
 export class ShowtimeFactory {
 
-    public create(id: number|null, movie: MovieModel, startTime: Date, endTime: Date, hall: HallModel, booking: BookingModel): ShowtimeModel {
-        return new ShowtimeModel(id, movie, startTime, endTime, hall, booking);
+    public create(
+      id: number,
+      startTime: Date,
+      endTime: Date,
+      movieId: number,
+      hallId: number,
+      bookingId: number
+    ): Showtime {
+      return {
+        id: id,
+        startTime: startTime,
+        endTime: endTime,
+        movieId: movieId,
+        hallId: hallId,
+        bookingId: bookingId
+      }
     }
 
 }

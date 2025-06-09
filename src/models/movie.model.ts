@@ -1,15 +1,15 @@
-import { ShowtimeModel } from "./showtime.model";
+import {ShowtimeModel} from "./showtime.model";
 
 export class MovieModel {
-    id: number|null;
+    id: number;
     title: string;
-    imageUrl: string;
+    imageURL: string;
     showtime: ShowtimeModel;
 
-    constructor(id: number|null, title: string, imageUrl: string, showtime: ShowtimeModel) {
+    constructor(id: number, title: string, imageURL: string, showtime: ShowtimeModel) {
         this.id = id;
         this.title = title;
-        this.imageUrl = imageUrl;
+        this.imageURL = imageURL;
         this.showtime = showtime;
     }
 }
