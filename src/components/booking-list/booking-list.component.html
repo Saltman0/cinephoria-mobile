@@ -1,14 +1,14 @@
 <app-header></app-header>
 <main class="flex flex-col items-center overflow-y-auto">
-  <!--@for (booking of bookingList; track booking.id;) {
+  @for (booking of bookingList; track booking.id;) {
     <app-booking [movieTitle]="booking.movieTitle" [movieImage]="booking.movieImage" [showtimeDate]="booking.showtimeDate"
                  [showtimeStartHour]="booking.showtimeStartHour" [showtimeEndHour]="booking.showtimeEndHour"
                  [hallNumber]="booking.number" [seats]="booking.seats">
     </app-booking>
   } @empty {
     Aucune salle dans ce cinéma.
-  }-->
-  <app-booking [id]="1" [movieTitle]="'Avengers : Infinity War'" [movieImage]="'Avengers_-_Infinity_War.png'"
+  }
+  <!--<app-booking [id]="1" [movieTitle]="'Avengers : Infinity War'" [movieImage]="'Avengers_-_Infinity_War.png'"
                [showtimeDate]="'12/04/2025'" [showtimeStartHour]="'21h00'" [showtimeEndHour]="'23h30'" [hallNumber]="1"
                [seats]="'A22/A23/A24'">
   </app-booking>
@@ -27,5 +27,5 @@
   <app-booking [id]="5" [movieTitle]="'Mon voisin Totoro'" [movieImage]="'Mon_voisin_Totoro.jpg'"
                [showtimeDate]="'12/04/2025'" [showtimeStartHour]="'21h00'" [showtimeEndHour]="'23h30'" [hallNumber]="1"
                [seats]="'A22/A23/A24'">
-  </app-booking>
+  </app-booking>-->
 </main>
