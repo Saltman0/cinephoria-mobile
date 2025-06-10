@@ -1,7 +1,7 @@
 <app-header></app-header>
 <main class="flex flex-col items-center overflow-y-auto">
   @for (booking of bookingList; track booking.id;) {
-    <app-booking [movieTitle]="booking.movieTitle" [movieImage]="booking.movieImage" [showtimeDate]="booking.showtimeDate"
+    <app-booking [id]="booking.id" [movieTitle]="booking.movieTitle" [movieImage]="booking.movieImage" [showtimeDate]="booking.showtimeDate"
                  [showtimeStartHour]="booking.showtimeStartHour" [showtimeStartMinute]="booking.showtimeStartMinute"
                  [showtimeEndHour]="booking.showtimeEndHour" [showtimeEndMinute]="booking.showtimeEndMinute"
                  [hallNumber]="booking.hallNumber" [seats]="booking.seats">
