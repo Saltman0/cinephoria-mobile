@@ -25,7 +25,7 @@ export class BookingDetailComponent  {
   @Input() showtimeEndMinute: string|null = "xx";
   @Input() hallNumber: number|null = 1;
   @Input() seats: string|null = "A22/A23/A24";
-  @Input() qrCode: string|null = "https://github.com/Cordobo/angularx-qrcode";
+  @Input() qrCode: string = "";
 
   constructor(private readonly databaseService: DatabaseService,
               private readonly bookingRenderer: BookingRenderer,
@@ -47,7 +47,7 @@ export class BookingDetailComponent  {
       this.showtimeEndMinute = result.showtimeEndMinute;
       this.hallNumber = result.hallNumber;
       this.seats = result.seats;
-      this.qrCode = result.qrCode;
+      this.qrCode = JSON.stringify(result.qrCode);
     }
   }
 

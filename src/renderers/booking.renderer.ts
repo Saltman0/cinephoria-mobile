@@ -71,6 +71,19 @@ export class BookingRenderer {
       index++;
     }
 
+    const qrCode = {
+      id: booking.id,
+      hallNumber: hallNumber,
+      movieTitle: movieTitle,
+      movieImage: movieImage,
+      showtimeDate: showtimeDate,
+      showtimeStartHour: showtimeStartHour,
+      showtimeStartMinute: showtimeStartMinute,
+      showtimeEndHour: showtimeEndHour,
+      showtimeEndMinute: showtimeEndMinute,
+      seats: seats
+    }
+
     return {
       id: booking.id,
       hallNumber: hallNumber,
@@ -82,7 +95,7 @@ export class BookingRenderer {
       showtimeEndHour: showtimeEndHour,
       showtimeEndMinute: showtimeEndMinute,
       seats: seats,
-      qrCode: booking.qrCode
+      qrCode: qrCode
     }
   }
 
