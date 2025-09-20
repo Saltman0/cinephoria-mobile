@@ -10,7 +10,7 @@ import * as process from "process";
 })
 export class ApiService {
 
-  private userApiUrl = process.env.USER_API_URL;
+  private userApiUrl = process.env["USER_API_URL"];
 
   constructor(private readonly getBookingsGql: GetBookingsGql, private readonly bookingFactory: BookingFactory) {}
 
