@@ -52,6 +52,11 @@ yarn-error.log
 !.vscode/extensions.json
 .history/*
 
+# dotenv environment variable files
+.env.development.local
+.env.test.local
+.env.production.local
+.env.local
 
 # Miscellaneous
 /.angular
