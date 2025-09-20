@@ -3,18 +3,19 @@ import {jwtDecode} from "jwt-decode";
 import {GetBookingsGql} from "../../graphql/get-bookings.gql";
 import {BookingModel} from "../../models/booking.model";
 import {BookingFactory} from "../../factories/booking.factory";
+import * as process from "process";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
 
-  private apiUrl = 'http://172.18.0.6/';
+  private userApiUrl = process.env.USER_API_URL;
 
   constructor(private readonly getBookingsGql: GetBookingsGql, private readonly bookingFactory: BookingFactory) {}
 
   public async login(email: string, password: string): Promise<any> {
-    const response: Response = await fetch(this.apiUrl + "login", {
+    const response: Response = await fetch(this.userApiUrl + "login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -37,7 +38,7 @@ export class ApiService {
       throw new Error("Invalid token.");
     }
 
-    const response: Response = await fetch(`${this.apiUrl}user/${userId}`, {
+    const response: Response = await fetch(`${this.userApiUrl}user/${userId}`, {
       method: "GET",
       headers: {
         "Authorization": `Bearer ${token}`
