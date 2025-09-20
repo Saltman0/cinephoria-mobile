@@ -32,7 +32,7 @@ export const appConfig: ApplicationConfig = {
       });
 
       return {
-        link: ApolloLink.from([auth, httpLink.create({ uri: process.env.GRAPHQL_API_URL + 'graphql' })]),
+        link: ApolloLink.from([auth, httpLink.create({ uri: process.env["GRAPHQL_API_URL"] + 'graphql' })]),
         cache: new InMemoryCache()
       };
     })
