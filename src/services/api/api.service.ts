@@ -3,14 +3,14 @@ import {jwtDecode} from "jwt-decode";
 import {GetBookingsGql} from "../../graphql/get-bookings.gql";
 import {BookingModel} from "../../models/booking.model";
 import {BookingFactory} from "../../factories/booking.factory";
-import * as process from "process";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
 
-  private userApiUrl = process.env["USER_API_URL"];
+  private userApiUrl = environment.USER_API_URL;
 
   constructor(private readonly getBookingsGql: GetBookingsGql, private readonly bookingFactory: BookingFactory) {}
 
@@ -57,7 +57,7 @@ export class ApiService {
 
     let bookings: BookingModel[] = [];
     let result = await this.getBookingsGql.watch(
-        { userId: userId }
+        { userId: userId, showtimeId: null }
     ).result();
 
     result.data.bookings.forEach((booking: BookingModel) => {
