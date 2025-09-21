@@ -3,7 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  GRAPHQL_API_URL: "http://172.18.0.5/",
+  USER_API_URL: "http://172.18.0.5/"
 };
 
 /*
