@@ -6,8 +6,8 @@ Application mobile destiné à afficher la liste des réservations de l'utilisat
 ## Installation
 
 ### Pré-requis
-- [Angular](https://angular.dev/)
-- [Ionic](https://ionicframework.com/) `sudo npm install -g @ionic/cli`
+- [Angular](https://angular.dev/) `npm install -g @angular/cli`
+- [Ionic](https://ionicframework.com/) `npm install -g @ionic/cli`
 - [Node.js](https://nodejs.org/)
 
 ### Librairies
