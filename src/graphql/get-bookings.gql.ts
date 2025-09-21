@@ -11,8 +11,8 @@ export interface Response {
 })
 export class GetBookingsGql extends Query<Response> {
     document = gql`
-      query GetBookings($userId: Int!) {
-        bookings(userId: $userId) {
+      query GetBookings($userId: Int, $showtimeId: Int) {
+        bookings(userId: $userId, showtimeId: $showtimeId) {
           id
           showtime {
             id
