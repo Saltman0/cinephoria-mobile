@@ -1,17 +1,21 @@
 import {Injectable} from "@angular/core";
-import {User} from "../services/database/database.service";
+import {UserModel} from "../models/user.model";
 
 @Injectable({
     providedIn: 'root'
 })
 export class UserFactory {
 
-    public create(id: number, firstName: string, lastName: string): User {
-        return {
-          id: id,
-          firstName: firstName,
-          lastName: lastName
-        }
-    }
+  public create(
+    id: number,
+    email: string,
+    password: string,
+    firstName: string,
+    lastName: string,
+    phoneNumber: string,
+    role: string
+  ): UserModel {
+    return new UserModel(id, email, password, firstName, lastName, phoneNumber, role);
+  }
 
 }
