@@ -2,8 +2,11 @@ import {Injectable} from '@angular/core';
 import {jwtDecode} from "jwt-decode";
 import {GetBookingsGql} from "../../graphql/get-bookings.gql";
 import {BookingModel} from "../../models/booking.model";
-import {BookingFactory} from "../../factories/booking.factory";
 import {environment} from "../../environments/environment";
+import {BookingSeatModel} from "../../models/bookingSeat.model";
+import {BookingSeatFactory} from "../../factories/bookingSeat.factory";
+import {BookingFactory} from "../../factories/booking.factory";
+import {GetBookingSeatsGql} from "../../graphql/get-bookingseats.gql";
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +15,11 @@ export class ApiService {
 
   private userApiUrl = environment.USER_API_URL;
 
-  constructor(private readonly getBookingsGql: GetBookingsGql, private readonly bookingFactory: BookingFactory) {}
+  constructor(
+    private readonly getBookingsGql: GetBookingsGql,
+    private readonly getBookingSeatsGql: GetBookingSeatsGql,
+    private readonly bookingFactory: BookingFactory,
+    private readonly bookingSeatFactory: BookingSeatFactory) {}
 
   public async login(email: string, password: string): Promise<any> {
     const response: Response = await fetch(this.userApiUrl + "login", {
@@ -53,26 +60,44 @@ export class ApiService {
     return response.json();
   }
 
-  public async getBookings(userId: number) {
+  public async getBookings(userId: number, showtimeId: number|null) {
 
     let bookings: BookingModel[] = [];
     let result = await this.getBookingsGql.watch(
-        { userId: userId, showtimeId: null }
+        { userId: userId, showtimeId: showtimeId }
     ).result();
 
     result.data.bookings.forEach((booking: BookingModel) => {
       bookings.push(
-        this.bookingFactory.createModel(
+        this.bookingFactory.create(
           booking.id,
-          booking.qrCode,
-          booking.showtime,
           booking.user,
-          booking.bookingSeats
+          booking.showtime
         )
       );
     });
 
     return bookings;
+  }
+
+  public async getBookingSeats(bookingId: number|null, seatId: number|null): Promise<BookingSeatModel[]> {
+
+    let bookingSeats: BookingSeatModel[] = [];
+    let result = await this.getBookingSeatsGql.watch(
+      { bookingId: bookingId, seatId: seatId }
+    ).result();
+
+    result.data.bookingSeats.forEach((bookingSeat: BookingSeatModel) => {
+      bookingSeats.push(
+        this.bookingSeatFactory.create(
+          bookingSeat.id,
+          bookingSeat.booking,
+          bookingSeat.seat
+        )
+      );
+    });
+
+    return bookingSeats;
   }
 
 }
