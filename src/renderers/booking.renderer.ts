@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import {Injectable} from "@angular/core";
 import {
   Booking,
   BookingSeat,
@@ -16,7 +16,7 @@ export class BookingRenderer {
 
   public constructor(private readonly databaseService: DatabaseService) {}
 
-  public async render(booking: Booking) {
+  public async renderBooking(booking: Booking) {
     let movieTitle: string|null = null;
     let movieImage: string|null = null;
     let hallNumber: number|null = null;
