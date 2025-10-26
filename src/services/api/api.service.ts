@@ -1,25 +1,17 @@
 import {Injectable} from '@angular/core';
 import {jwtDecode} from "jwt-decode";
-import {GetBookingsGql} from "../../graphql/get-bookings.gql";
-import {BookingModel} from "../../models/booking.model";
 import {environment} from "../../environments/environment";
-import {BookingSeatModel} from "../../models/bookingSeat.model";
-import {BookingSeatFactory} from "../../factories/bookingSeat.factory";
-import {BookingFactory} from "../../factories/booking.factory";
-import {GetBookingSeatsGql} from "../../graphql/get-bookingseats.gql";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
 
+  private bookingApiUrl = environment.BOOKING_API_URL;
+  private infrastructureApiUrl = environment.INFRASTRUCTURE_API_URL;
+  private movieApiUrl = environment.MOVIE_API_URL;
+  private showtimeApiUrl = environment.SHOWTIME_API_URL;
   private userApiUrl = environment.USER_API_URL;
-
-  constructor(
-    private readonly getBookingsGql: GetBookingsGql,
-    private readonly getBookingSeatsGql: GetBookingSeatsGql,
-    private readonly bookingFactory: BookingFactory,
-    private readonly bookingSeatFactory: BookingSeatFactory) {}
 
   public async login(email: string, password: string): Promise<any> {
     const response: Response = await fetch(this.userApiUrl + "login", {
@@ -48,7 +40,7 @@ export class ApiService {
     const response: Response = await fetch(`${this.userApiUrl}user/${userId}`, {
       method: "GET",
       headers: {
-        "Authorization": `Bearer ${token}`
+        "Content-Type": "application/json"
       }
     });
 
@@ -60,44 +52,106 @@ export class ApiService {
     return response.json();
   }
 
-  public async getBookings(userId: number, showtimeId: number|null) {
+  public async getBookings(userId: number|null, showtimeId: number|null): Promise<any> {
+    let queryParams: string|null = null;
 
-    let bookings: BookingModel[] = [];
-    let result = await this.getBookingsGql.watch(
-        { userId: userId, showtimeId: showtimeId }
-    ).result();
+    if (userId !== null && showtimeId !== null) {
+      queryParams = "?userId=" + encodeURIComponent(userId) + "&showtimeId=" + encodeURIComponent(showtimeId);
+    } else if (userId !== null) {
+      queryParams = "?userId=" + encodeURIComponent(userId);
+    } else if (showtimeId !== null) {
+      queryParams = "?showtimeId=" + encodeURIComponent(showtimeId);
+    }
 
-    result.data.bookings.forEach((booking: BookingModel) => {
-      bookings.push(
-        this.bookingFactory.create(
-          booking.id,
-          booking.user,
-          booking.showtime
-        )
-      );
+    const response: Response = await fetch(this.bookingApiUrl + `booking` + queryParams, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json"
+      }
     });
 
-    return bookings;
+    if (!response.ok) {
+      throw new Error(response.status.toString());
+    }
+
+    return response.json();
   }
 
-  public async getBookingSeats(bookingId: number|null, seatId: number|null): Promise<BookingSeatModel[]> {
-
-    let bookingSeats: BookingSeatModel[] = [];
-    let result = await this.getBookingSeatsGql.watch(
-      { bookingId: bookingId, seatId: seatId }
-    ).result();
-
-    result.data.bookingSeats.forEach((bookingSeat: BookingSeatModel) => {
-      bookingSeats.push(
-        this.bookingSeatFactory.create(
-          bookingSeat.id,
-          bookingSeat.booking,
-          bookingSeat.seat
-        )
-      );
+  public async getShowtime(showtimeId: number): Promise<any> {
+    const response: Response = await fetch(this.showtimeApiUrl + `showtime/${showtimeId}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json"
+      }
     });
 
-    return bookingSeats;
+    if (!response.ok) {
+      throw new Error(response.status.toString());
+    }
+
+    return response.json();
+  }
+
+  public async getMovie(movieId: number): Promise<any> {
+    const response: Response = await fetch(this.movieApiUrl + `movie/${movieId}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error(response.status.toString());
+    }
+
+    return response.json();
+  }
+
+  public async getBookingSeats(bookingId: number): Promise<any> {
+    const response: Response = await fetch(
+        this.bookingApiUrl + `booking/${encodeURIComponent(bookingId)}/bookingSeats`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json"
+          }
+        }
+    );
+
+    if (!response.ok) {
+      throw new Error(response.status.toString());
+    }
+
+    return response.json();
+  }
+
+  public async getSeat(seatId: number): Promise<any> {
+    const response: Response = await fetch(this.infrastructureApiUrl + `seat/${seatId}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error(response.status.toString());
+    }
+
+    return response.json();
+  }
+
+  public async getHall(hallId: number): Promise<any> {
+    const response: Response = await fetch(this.infrastructureApiUrl + `hall/${hallId}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error(response.status.toString());
+    }
+
+    return response.json();
   }
 
 }
