@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {HeaderComponent} from "../header/header.component";
 import {QRCodeComponent} from "angularx-qrcode";
 import {NgOptimizedImage, NgStyle} from "@angular/common";
@@ -13,7 +13,7 @@ import {Booking, DatabaseService} from "../../services/database/database.service
   styleUrls: ['./booking-detail.component.scss'],
   imports: [HeaderComponent, QRCodeComponent, NgOptimizedImage, NgStyle]
 })
-export class BookingDetailComponent  {
+export class BookingDetailComponent implements OnInit  {
 
   @Input() id: number = 0;
   @Input() movieTitle: string|null = "Titre du film";
@@ -33,11 +33,11 @@ export class BookingDetailComponent  {
               private readonly activatedRoute: ActivatedRoute) {}
 
   async ngOnInit(): Promise<void> {
-    const bookingId = Number(this.activatedRoute.snapshot.paramMap.get('bookingId'));
+    const bookingId: number = Number(this.activatedRoute.snapshot.paramMap.get('bookingId'));
 
     const booking: Booking|null = await this.databaseService.getBooking(bookingId) ?? null;
     if (booking !== null) {
-      const result = await this.bookingRenderer.render(booking);
+      const result = await this.bookingRenderer.renderBooking(booking);
       this.movieTitle = result.movieTitle;
       this.movieImage = result.movieImage;
       this.showtimeDate = result.showtimeDate;
