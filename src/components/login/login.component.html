@@ -20,7 +20,13 @@
             </div>
         </div>
 
-        <button type="submit" [disabled]="!loginForm.valid" class="cinephoria-button-details">Connexion</button>
+        <button type="submit" [disabled]="!loginForm.valid" class="cinephoria-button-details">
+            @if (isLoginLoading) {
+                En cours...
+            } @else {
+                Connexion
+            }
+        </button>
 
     </form>
 </main>

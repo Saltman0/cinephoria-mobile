@@ -19,12 +19,17 @@ export class LoginComponent {
     password: new FormControl('0123456789', [Validators.required])
   });
 
-  constructor(private router: Router,
-              private readonly apiService: ApiService,
-              private readonly databaseService: DatabaseService,
-              private readonly localStorageService: LocalStorageService) {}
+  isLoginLoading: boolean = false;
+
+  constructor(
+      private router: Router,
+      private readonly apiService: ApiService,
+      private readonly databaseService: DatabaseService,
+      private readonly localStorageService: LocalStorageService
+  ) {}
 
   async submit() {
+    this.isLoginLoading = true;
 
     const jwtToken = await this.apiService.login(
         <string>this.loginForm.value.email,
@@ -38,6 +43,8 @@ export class LoginComponent {
 
       await this.databaseService.populateDatabase();
     }
+
+    this.isLoginLoading = false;
 
     await this.router.navigate(['booking-list']);
   }
