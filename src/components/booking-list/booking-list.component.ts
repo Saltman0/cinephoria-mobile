@@ -20,7 +20,7 @@ export class BookingListComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     const bookings: Booking[] = await this.databaseService.getBookings(1);
     for (const booking of bookings) {
-      this.bookingList.push(await this.bookingRenderer.render(booking));
+      this.bookingList.push(await this.bookingRenderer.renderBooking(booking));
     }
   }
 
