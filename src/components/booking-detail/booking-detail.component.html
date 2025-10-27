@@ -1,28 +1,31 @@
 <app-header></app-header>
-<main class="cinephoria-booking-detail flex flex-col justify-around items-center" [ngStyle]="{'background-image': 'url(assets/images/movies/' + movieImage + ')'}">
+<main class="cinephoria-booking-detail"
+      [ngStyle]="{'background-image': 'url(assets/images/movies/' + movieImage + ')'}">
 
-  <span class="cinephoria-movie-title">{{ movieTitle }}</span>
+  <span class="cinephoria-main-title w-full">{{ movieTitle }}</span>
 
-  <section class="flex flex-col justify-around items-center w-100" style="height: 35%;">
+  <section class="cinephoria-booking-informations">
 
-    <div class="flex items-center" style="width: 50dvw;">
-      <img src="../../assets/images/Calendar.png" alt="Calendrier" class="icon" style="width: 20%;" />
-      <span class="cinephoria-big-text" style="margin-left: 0.5rem;">{{ showtimeDate }}</span>
+    <div class="cinephoria-informations">
+      <img src="../../assets/images/Calendar.png" alt="Calendrier" width="25" height="25" class="icon" />
+      <span class="cinephoria-big-text">{{ showtimeDate }}</span>
     </div>
 
-    <div class="flex items-center" style="width: 50dvw;">
-      <img src="../../assets/images/Clock.png" alt="Horaires" class="icon" style="width: 20%;" />
-      <span class="cinephoria-big-text" style="margin-left: 0.5rem;">{{ showtimeStartHour }}h{{ showtimeStartMinute }} - {{ showtimeEndHour }}h{{ showtimeEndMinute }}</span>
+    <div class="cinephoria-informations">
+      <img src="../../assets/images/Clock.png" alt="Horaires" width="25" height="25" class="icon" />
+      <span class="cinephoria-big-text">
+          {{ showtimeStartHour }}h{{ showtimeStartMinute }} - {{ showtimeEndHour }}h{{ showtimeEndMinute }}
+      </span>
     </div>
 
-    <div class="flex items-center" style="width: 50dvw;">
-      <img src="../../assets/images/Hall.png" alt="Salle" class="icon" style="width: 20%;" />
-      <span class="cinephoria-big-text" style="margin-left: 0.5rem;">Salle {{ hallNumber }}</span>
+    <div class="cinephoria-informations">
+      <img src="../../assets/images/Hall.png" alt="Salle" width="25" height="25" class="icon" />
+      <span class="cinephoria-big-text">Salle {{ hallNumber }}</span>
     </div>
 
-    <div class="flex items-center" style="width: 50dvw;">
-      <img src="../../assets/images/Chair.png" alt="Sièges" class="icon" style="width: 20%;" />
-      <span class="cinephoria-big-text" style="margin-left: 0.5rem;">{{ seats }}</span>
+    <div class="cinephoria-informations">
+      <img src="../../assets/images/Chair.png" alt="Sièges" width="25" height="25" class="icon" />
+      <span class="cinephoria-big-text">{{ seats }}</span>
     </div>
 
   </section>
@@ -39,7 +42,7 @@
       [width]="200"
     ></qrcode>
 
-  <button type="button" (click)="returnToBookingList()" class="cinephoria-button text-center" style="width: 45dvw; height: 5dvh;">
+  <button type="button" (click)="returnToBookingList()" class="cinephoria-button-details">
     <img ngSrc="../../assets/images/Left_arrow.png" alt="Retour" class="icon" width="20" height="20" />
     <span style="font-size: 4dvw;">Retour</span>
   </button>

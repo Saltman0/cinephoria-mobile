@@ -1,6 +1,7 @@
-<section class="cinephoria-booking flex flex-col justify-around w-screen" [ngStyle]="{'background-image': 'url(assets/images/movies/' + movieImage + ')'}">
+<section class="cinephoria-booking"
+         [ngStyle]="{'background-image': 'url(assets/images/movies/' + movieImage + ')'}">
 
-  <div class="cinephoria-movie-title text-center">
+  <div class="cinephoria-main-title">
     <span>{{ movieTitle }}</span>
   </div>
 
@@ -8,30 +9,32 @@
     <div class="flex justify-around items-center">
       <div class="cinephoria-informations">
         <img ngSrc="../../assets/images/Calendar.png" alt="Calendrier" class="icon" width="20" height="20" />
-        <span class="cinephoria-big-text" style="margin-left: 0.3rem;">{{ showtimeDate }}</span>
+        <span class="cinephoria-big-text">{{ showtimeDate }}</span>
       </div>
       <div class="cinephoria-informations">
         <img ngSrc="../../assets/images/Clock.png" alt="Horaires" class="icon" width="20" height="20" />
-        <span class="cinephoria-big-text" style="margin-left: 0.3rem;">{{ showtimeStartHour }}h{{ showtimeStartMinute }} - {{ showtimeEndHour }}h{{ showtimeEndMinute }}</span>
+        <span class="cinephoria-big-text">
+            {{ showtimeStartHour }}h{{ showtimeStartMinute }} - {{ showtimeEndHour }}h{{ showtimeEndMinute }}
+        </span>
       </div>
     </div>
 
     <div class="flex justify-around items-center">
       <div class="cinephoria-informations">
         <img ngSrc="../../assets/images/Hall.png" alt="Salle" class="icon" width="20" height="20" />
-        <span class="cinephoria-big-text" style="margin-left: 0.3rem;">Salle {{ hallNumber }}</span>
+        <span class="cinephoria-big-text">Salle {{ hallNumber }}</span>
       </div>
       <div class="cinephoria-informations">
         <img ngSrc="../../assets/images/Chair.png" alt="Sièges" class="icon" width="20" height="20" />
-        <span class="cinephoria-big-text" style="margin-left: 0.3rem;">{{ seats }}</span>
+        <span class="cinephoria-big-text">{{ seats }}</span>
       </div>
     </div>
   </div>
 
   <div class="flex justify-center">
-    <button type="button" (click)="displayBookingDetails(id)" class="cinephoria-button text-center" style="width: 55dvw; height: 5dvh;">
+    <button type="button" (click)="displayBookingDetails(id)" class="cinephoria-button">
       <img ngSrc="../../assets/images/Qr_code.png" alt="QR Code" class="icon" width="20" height="20" />
-      <span style="margin-left: 1.5rem; font-size: 4dvw;">Afficher le QR Code</span>
+      <span class="cinephoria-button-text ml-5">Afficher le QR Code</span>
     </button>
   </div>
 </section>
