@@ -15,8 +15,8 @@ import {LocalStorageService} from "../../services/local-storage/local-storage.se
 })
 export class LoginComponent {
   loginForm = new FormGroup({
-    email: new FormControl('baudoin.mathieu@protonmail.com', [Validators.required, Validators.email]),
-    password: new FormControl('0123456789', [Validators.required])
+    email: new FormControl('', [Validators.required, Validators.email]),
+    password: new FormControl('', [Validators.required])
   });
 
   isLoginLoading: boolean = false;
