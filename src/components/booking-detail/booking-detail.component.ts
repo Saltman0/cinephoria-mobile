@@ -17,7 +17,7 @@ export class BookingDetailComponent implements OnInit  {
 
   @Input() id: number = 0;
   @Input() movieTitle: string|null = "Titre du film";
-  @Input() movieImage: string|null = "Titre_du_film.png";
+  @Input() movieImage: string|null = null;
   @Input() showtimeDate: string|null = "Date du film actuel";
   @Input() showtimeStartHour: string|null = "xx";
   @Input() showtimeStartMinute: string|null = "xx";
